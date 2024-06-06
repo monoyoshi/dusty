@@ -1,0 +1,153 @@
+html, body {
+    margin: 0;
+    color: var(--black);
+    user-select: none; 
+}
+
+footer {
+    display: none;
+}
+
+#viewport {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -99;
+    background-color: var(--black);
+}
+
+#options-button {
+    opacity: 0.3;
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    height: 90px;
+    width: 90px;
+    background-image: url("assets/gear.svg");
+    background-size: 100%;
+    transition-duration: 250ms;
+    z-index: 1;
+}
+
+#options-window {
+    background-color: var(--white);
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    width: 72px;
+    padding-bottom: 15px;
+    font-size: 16px;
+    border: 5px solid var(--dgray);
+    opacity: 0;
+    display: none;
+}
+
+#options-titlebar {
+    display: flex;
+    height: 45px;
+    background-color: var(--a_blue);
+    color: var(--white);
+    border-bottom: 5px solid var(--dgray);
+}
+
+#options-title {
+    width: calc(100% - 60px);
+    padding-left: 15px;
+    font-size: 24px;
+}
+
+#options-close-button {
+    width: 45px;
+    height: 45px;
+    background-image: url(assets/redx.svg);
+    background-size: 100%;
+    outline: 5px solid var(--dgray);
+    border: none;
+}
+
+#options-panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    background-color: var(--white);
+}
+
+#options-panel>div {
+    margin: 15px 0 0 15px;
+    color: var(--black);
+    padding: 15px;
+}
+
+#options-panel>div:last-child {
+    margin-bottom: 15px;
+    color: var(--black);
+    padding: 15px;
+}
+
+.option-bar {
+    display: flex;
+    align-items: center;
+}
+
+.option-bar>* {
+    margin-left: 15px;
+}
+
+.option-bar>*:first-child {
+    margin-left: 0;
+}
+
+.option-indicator {
+    width: 100px;
+}
+
+#credit {
+    position: absolute;
+    right: -5px;
+    bottom: -20px;
+    text-align: right;
+    opacity: 0.3;
+}
+
+#dust-canvas {
+    overflow: hidden;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    z-index: -99;
+}
+
+.particle {
+    background-color: var(--white);
+    border-radius: 50%;
+    position: fixed;
+    animation-name: dustFadeIn;
+    animation-duration: 1000ms;
+}
+
+.dfo {
+    animation-name: dustFadeOut;
+}
+
+@keyframes dustFadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes dustFadeOut {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}

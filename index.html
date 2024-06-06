@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="icon" type="image/png" href="../global-assets/pictures/favicon.png">
+    <title>dusty</title>
+
+    <!-- stylesheets -->
+    <!-- global -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../global-assets/css/colors.css">
+    <link rel="stylesheet" href="../global-assets/css/fonts.css">
+
+    <!-- local -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- scripts -->
+    <!-- global -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="../global-assets/javascript/boilerplate.js"></script>
+    <script>
+        // insert header and footer
+        $(document).ready(function () {
+            footer(1, true);
+        });
+    </script>
+
+    <!-- local -->
+    <script src="index.js"></script>    
+
+</head>
+
+<body>
+    <div id="options-button"></div>
+    <div id="options-window">
+        <div id="options-titlebar">
+            <div id="options-title">settings</div>
+            <button id="options-close-button"></button>
+        </div>
+        <div id="options-panel">
+            <div class="option" id="input-amount">
+                maximum amount of particles generated at a time (1-10 particles)
+                <div class="option-bar">
+                    <div class="option-indicator"></div>
+                    <input class="option-slider" type="range" min="1" max="10" value="3" step="1">
+                    <button class="option-reset">reset</button>
+                </div>
+            </div>
+            <div class="option" id="input-size">
+                maximum size of particles (10-100 px diameter)
+                <div class="option-bar">
+                    <span class="option-indicator"></span>
+                    <input class="option-slider" type="range" min="10" max="100" value="10" step="10">
+                    <button class="option-reset">reset</button>
+                </div>
+            </div>
+            <div class="option" id="input-lifespan">
+                base lifespan (speed) of particles (500-15000 milliseconds)
+                <div class="option-bar">
+                    <span class="option-indicator"></span>
+                    <input class="option-slider" type="range" min="500" max="15000" value="15000" step="500">
+                    <button class="option-reset">reset</button>
+                </div>
+            </div>
+            <div class="option" id="input-generation">
+                frequency of particle generation (100-5000 milliseconds)
+                <div class="option-bar">
+                    <span class="option-indicator"></span>
+                    <input class="option-slider" type="range" min="100" max="5000" value="500" step="100">
+                    <button class="option-reset">reset</button>
+                </div>
+            </div>
+            <div class="option" id="input-dotcolor">
+                color of particles
+                <div class="option-bar">
+                    <span class="option-indicator"></span>
+                    <input class="option-picker" type="color" value="#f5faff">
+                    <button class="option-reset">reset</button>
+                </div>
+            </div>
+            <div class="option" id="input-bgcolor">
+                color of background
+                <div class="option-bar">
+                    <span class="option-indicator"></span>
+                    <input class="option-picker" type="color" value="#00050a">
+                    <button class="option-reset">reset</button>
+                </div>
+            </div>
+            <div class="option-bar">
+                <button id="button-resetall">reset all</button>
+                <button id="button-clear">clear</button>
+            </div>
+            <div id="credit"></div>
+        </div>
+    </div>
+
+    <footer></footer>
+
+    <div id="viewport">
+        <div id="dust-canvas"></div>
+    </div>
+</body>
+
+</html>
