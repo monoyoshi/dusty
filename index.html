@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <link rel="icon" type="image/png" href="../global-assets/pictures/favicon.png">
+    <link rel="icon" type="image/png" href="../global-assets/images/favicon.png">
     <title>dusty</title>
 
     <!-- stylesheets -->
@@ -21,19 +21,22 @@
     <!-- global -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="../global-assets/javascript/boilerplate.js"></script>
+
+    <!-- local -->
+    <script src="index.js"></script>    
+
     <script>
         // insert header and footer
         $(document).ready(function () {
             footer(1, true);
         });
     </script>
-
-    <!-- local -->
-    <script src="index.js"></script>    
-
 </head>
 
 <body>
+    <div id="tap"></div>
+    <div id="drag"></div>
+
     <div id="options-button"></div>
     <div id="options-window">
         <div id="options-titlebar">

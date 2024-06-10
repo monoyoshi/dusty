@@ -1,9 +1,9 @@
 $(document).ready(function() {
 
     // variables
-    // boolean for telling the gear to stop glowing so much if the window isn't active anymore
-    let windowUp = false;
-    let lastWindowPosition = [120, 30];
+
+    let windowUp = false; // boolean for telling the gear to stop glowing so much if the window isn't active anymore
+    let lastWindowPosition = [120, 30]; // window position memory
 
     // magic
     let $viewport = $("#viewport");
@@ -36,9 +36,20 @@ $(document).ready(function() {
     let $inputDotColorReset = $("#input-dotcolor>.option-bar>.option-reset");
     let $inputBGColorReset = $("#input-bgcolor>.option-bar>.option-reset");
 
+    // cursor
+    let $drag = $("#drag");
+    let $tap = $("#tap");
+
     // and finally, the buttons to manage everything
     let $resetAll = $("#button-resetall");
     let $clear = $("#button-clear");
+
+    // cursor booleans
+    let isTouching = false;
+    let currentTap = undefined;
+    let scrollOffset = 0;
+
+    let cDimensions = 15; // size of cursor particle
 
     // functions
     // generate c colored particles of amount a, diameter d, and lifespan l
@@ -156,7 +167,7 @@ $(document).ready(function() {
 
     function dragInit(cursorPosition) {
         // in the club, draggin' it
-        // and by it, I mean the window
+        // and by it, I mean the window div
         let dragParameters = {
             dElement: $optionsWindow,
             currentX: cursorPosition.pageX,
@@ -198,17 +209,17 @@ $(document).ready(function() {
         })
 
         // indicate trigger
-        .mousedown(function() {
+        .on("mousedown", function() {
             $optionsButton.css("filter", "brightness(150%)");
         })
 
         // indicate post-trigger
-        .mouseup(function() {
+        .on("mouseup", function() {
             $optionsButton.css("filter", "brightness(100%)");
         })
 
         // gear button
-        .click(function() {
+        .on("click", function() {
             if (windowUp) {
                 lastWindowPosition = [parseInt($optionsWindow.css("left")), parseInt($optionsWindow.css("top"))];
                 closeWindow();
@@ -216,10 +227,10 @@ $(document).ready(function() {
             else openWindow(lastWindowPosition[0], lastWindowPosition[1]);
         });
 
-    $("#options-title").mousedown(dragInit);
+    $("#options-title").on("mousedown", dragInit);
 
     // x button
-    $("#options-close-button").click(function() {
+    $("#options-close-button").on("click", function() {
         lastWindowPosition = [120, 30];
         closeWindow(true);
     });
@@ -229,7 +240,7 @@ $(document).ready(function() {
     $inputAmountSlider.on("input", function() {
         update("100000");
     });
-    $inputAmountReset.click(function() {
+    $inputAmountReset.on("click", function() {
         reset("100000");
     });
 
@@ -237,7 +248,7 @@ $(document).ready(function() {
     $inputSizeSlider.on("input", function() {
         update("010000");
     });
-    $inputSizeReset.click(function() {
+    $inputSizeReset.on("click", function() {
         reset("010000");
     });
 
@@ -245,7 +256,7 @@ $(document).ready(function() {
     $inputLifespanSlider.on("input", function() {
         update("001000");
     });
-    $inputLifespanReset.click(function() {
+    $inputLifespanReset.on("click", function() {
         reset("001000");
     });
 
@@ -253,7 +264,7 @@ $(document).ready(function() {
     $inputGenerationSlider.on("input", function() {
         update("000100");
     });
-    $inputGenerationReset.click(function() {
+    $inputGenerationReset.on("click", function() {
         reset("000100");
     });
 
@@ -261,7 +272,7 @@ $(document).ready(function() {
     $inputDotColorPicker.on("input", function() {
         update("000010");
     });
-    $inputDotColorReset.click(function() {
+    $inputDotColorReset.on("click", function() {
         reset("000010");
     });
     
@@ -269,17 +280,17 @@ $(document).ready(function() {
     $inputBGColorPicker.on("input", function() {
         update("000001");
     });
-    $inputBGColorReset.click(function() {
+    $inputBGColorReset.on("click", function() {
         reset("000001");
     });
     
     // reset everything to default
-    $resetAll.click(function() {
+    $resetAll.on("click", function() {
         reset("111111");
     });
     
     // clear the canvas
-    $clear.click(function() {
+    $clear.on("click", function() {
         $dustCanvas.empty();
         clearTimeout(currentGen);
         currentGen = setInterval(() => {
@@ -293,5 +304,63 @@ $(document).ready(function() {
 
     $("#credit").html($("footer>.footer-box>.textbox>div").html());
     $("footer").remove();
+
+    $(document).on("mousedown", function(position) {
+        isTouching = true;
+        if (!$tap.hasClass("ped")) {
+            let tapDimension = parseInt($tap.css("width"));
+            $tap
+                .addClass("ped")
+                .css({
+                    left: `${position.pageX - (tapDimension / 2)}px`,
+                    top: `${position.pageY - (tapDimension / 2) - scrollOffset}px`
+                });
+            clearTimeout(currentTap);
+            currentTap = setTimeout(() => {
+                $tap.removeClass("ped");
+            }, 250);
+        };
+    });
+
+    $(document).on("mousemove", function(position) {
+        if (isTouching) {
+            let $dragpiece = $("<div>", {
+                class: "dtrailpiece",
+                css: {
+                    left: `${position.pageX - (cDimensions / 2)}px`,
+                    top: `${position.pageY - (cDimensions / 2) - scrollOffset}px`
+                }
+            });
+            let dustDimensions = Math.floor(Math.random() * cDimensions * 1.5);
+            let $dragdust = $("<div>", {
+                class: "dragdust",
+                css: {
+                    left: `${position.pageX - (cDimensions * 1.25) + Math.floor(Math.random() * cDimensions * 2.5)}px`,
+                    top: `${position.pageY - (cDimensions * 1.25) + Math.floor(Math.random() * cDimensions * 2.5) - scrollOffset}px`,
+                    width: `${dustDimensions}px`,
+                    height: `${dustDimensions}px`,
+                    opacity: Math.random(),
+                }
+            });
+            $drag
+                .append($dragpiece)
+                .append($dragdust);
+                $dragpiece.animate({
+                    left: `${position.pageX}px`,
+                    top: `${position.pageY - scrollOffset}px`
+                }, 400, "linear", function() {
+                    $(this).remove();
+                    $dragdust.remove();
+                });
+        }
+    });
+
+    $(document).on("mouseup", function() {
+        isTouching = false;
+    });
+
+    $(document).on("scroll", function() {
+        scrollOffset = $(this).scrollTop();
+    });
 
 });
