@@ -302,7 +302,7 @@ $(document).ready(function() {
     reset("111111");
     update("111111");
 
-    $("#credit").html($("footer>.textbox").html());
+    $("#credit").html($("footer").html());
     $("footer").remove();
 
     $(document).on("mousedown", function(position) {
